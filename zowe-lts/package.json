@@ -1,0 +1,24 @@
+{
+  "name": "web-help-lts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "(rm ../help-site/metadata.json || true) && ts-node ./build-help-site.ts",
+    "dist": "(rm -rf ./dist || true) && mkdir dist && cp -r -t ./dist ../help-site/css ../help-site/doc ../help-site/img ../help-site/index.html ../help-site/package.json ../help-site/*.js && npm --prefix ./dist install --only=prod ./dist && rm ./dist/package*.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@brightside/core": "^2.29.1",
+    "@types/marked": "^0.6.5",
+    "@types/node": "^12.0.8",
+    "@types/rimraf": "^2.0.2",
+    "marked": "^0.6.2",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.2"
+  }
+}
