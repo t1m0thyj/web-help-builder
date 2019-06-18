@@ -160,7 +160,7 @@ function writeTreeData(docsDir: string, config: ImperativeConfig) {
 }
 
 (async () => {
-    const docsDir = path.join(__dirname, "..", "help-site", "doc");
+    const docsDir = path.join(__dirname, "..", "help-site", "docs");
     IO.createDirsSync(docsDir);
     const cliPackageDir = "node_modules/@brightside/core";
 

@@ -136,7 +136,7 @@ function loadTree() {
         // Change src attribute of iframe when item selected
         if (data.selected.length > 0) {
             currentNodeId = data.selected[0];
-            $("#docs-page").attr("src", `./doc/${currentNodeId}`);
+            $("#docs-page").attr("src", `./docs/${currentNodeId}`);
         }
     }).on("loaded.jstree", () => {
         // Select and expand root node when page loads

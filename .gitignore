@@ -2,6 +2,6 @@
 */node_modules
 */*.zip
 
-/help-site/doc
+/help-site/docs
 /help-site/metadata.json
 /help-site/*.js
