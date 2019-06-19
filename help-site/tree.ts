@@ -12,17 +12,17 @@
 interface ITreeNode {
     id: string;
     text: string;
-    children: undefined | ITreeNode[];
+    children?: ITreeNode[];
 }
 
-declare const treeNodes: ITreeNode[];
-declare const aliasList: { [key: string]: string[] };
 declare const headerStr: string;
 declare const footerStr: string;
+declare const treeNodes: ITreeNode[];
+declare const aliasList: { [key: string]: string[] };
 
-let currentNodeId: null | string = null;
+let currentNodeId: string;
 let isFlattened: boolean = false;
-let searchStrList: string[] = [];
+let searchStrList: string[];
 let searchTimeout: number = 0;
 
 function searchTree(_: string, node: any): boolean {
@@ -65,10 +65,6 @@ function permuteSearchStr(searchStr: string): string[] {
 }
 
 function selectCurrentNode(alsoExpand: boolean) {
-    if (currentNodeId === null) {
-        return;
-    }
-
     $("#cmd-tree").jstree(true).deselect_all();
     $("#cmd-tree").jstree(true).select_node(currentNodeId);
 
@@ -145,7 +141,7 @@ function loadTree() {
         selectCurrentNode(true);
     });
 
-    if (urlParams.get("l") === "1") {
+    if (urlParams.get("t") === "0") {
         toggleTreeView();
     }
 

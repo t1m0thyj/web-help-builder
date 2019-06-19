@@ -23,6 +23,6 @@
     }
 }
 
-[data-balloon] {
-    cursor: default !important;
+[aria-label] {
+    cursor: default;
 }
