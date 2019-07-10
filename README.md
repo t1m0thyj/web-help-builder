@@ -6,7 +6,10 @@
 
 Clone this repo and run the following commands:
 ```bash
-cd zowe-lts
+cd help-site
+# compile Typescript for help site
+npm run build
+cd ../zowe-lts
 npm install @brightside/core@lts-incremental
 # ewoz is a shell script that runs Zowe from the node_modules directory instead of your system installed Zowe
 ./ewoz plugins install @brightside/cics@lts-incremental @brightside/db2@lts-incremental
