@@ -1,5 +1,9 @@
 # web-help-builder
 
+## DEPRECATED
+
+This repo is no longer the recommended method for building Zowe web help. Use the [build-web-help](https://github.com/zowe/zowe-cli/tree/build-web-help) branch of Zowe and the [HelpBrowser](https://github.com/zowe/imperative/tree/HelpBrowser) branch of Imperative instead. The "web-help" folder in the Zowe repo contains a script that can be run with `npm run build:webHelp` and configured with `config.json`.
+
 ## Building web help
 
 ### Zowe LTS (@brightside/core)
