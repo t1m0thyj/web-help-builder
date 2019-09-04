@@ -1,7 +1,4 @@
-*/dist
-*/node_modules
-*/*.zip
-
-/help-site/docs
-/help-site/metadata.json
-/help-site/*.js
+/dist
+/node_modules
+/src/node_modules
+/config.yaml

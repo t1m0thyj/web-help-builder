@@ -1,0 +1,19 @@
+###############################################################################
+# Name of the Imperative CLI to generate web help for.
+# The CLI package must be installed in the folder "src/node_modules". Make sure
+# this folder exists before installing the package, to prevent NPM from
+# installing to the root folder of the repo.
+# To install the CLI package, run this command:
+#   cd src && npm install <cliPackage> --no-package-lock
+# Alternatively, run this command to link to a globally installed package:
+#   cd src && npm link <cliPackage>
+###############################################################################
+cliPackage: "@zowe/cli"
+
+###############################################################################
+# List of command groups to exclude from generated docs.
+# For example, if you have the CICS plugin globally installed but don't want
+# it included in the docs, add "cics" to this list.
+###############################################################################
+excludeGroups:
+  -

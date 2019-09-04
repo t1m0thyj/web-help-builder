@@ -1,0 +1,32 @@
+{
+  "name": "web-help-builder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "ts-node src/build-web-help.ts",
+    "build:latest": "(rm -r src/node_modules || true) && mkdir src/node_modules && cd src && npm install @zowe/cli@latest --no-package-lock && cd .. && sed -i 's|cliPackage:.*|cliPackage: \"@zowe/cli\"|' config.yaml && npm run build",
+    "build:lts": "(rm -r src/node_modules || true) && mkdir src/node_modules && cd src/node_modules && npm install @brightside/core@lts-incremental --no-package-lock && cd ../.. && sed -i 's|cliPackage:.*|cliPackage: \"@brightside/core\"|' config.yaml && npm run build",
+    "clean": "(rm -r dist || true) && (rm -r src/node_modules || true)",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjohnsonBCM/web-help-builder.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tjohnsonBCM/web-help-builder/issues"
+  },
+  "homepage": "https://github.com/tjohnsonBCM/web-help-builder#readme",
+  "devDependencies": {
+    "@types/node": "^12.7.4",
+    "@zowe/imperative": "^4.3.2",
+    "js-yaml": "^3.13.1",
+    "rimraf": "^3.0.0",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.19.0",
+    "typescript": "^3.6.2"
+  }
+}
