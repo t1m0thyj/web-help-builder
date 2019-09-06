@@ -1,12 +1,7 @@
 ###############################################################################
 # Name of the Imperative CLI to generate web help for.
-# The CLI package must be installed in the folder "src/node_modules". Make sure
-# this folder exists before installing the package, to prevent NPM from
-# installing to the root folder of the repo.
-# To install the CLI package, run this command:
-#   cd src && npm install <cliPackage> --no-package-lock
-# Alternatively, run this command to link to a globally installed package:
-#   cd src && npm link <cliPackage>
+# The NPM package for the CLI must be installed either locally in this repo,
+# or globally.
 ###############################################################################
 cliPackage: "@zowe/cli"
 
@@ -17,3 +12,9 @@ cliPackage: "@zowe/cli"
 ###############################################################################
 excludeGroups:
   -
+
+###############################################################################
+# Specifies whether user's home directory should be redacted from help
+# content.
+###############################################################################
+sanitizeHomeDir: yes

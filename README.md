@@ -12,13 +12,29 @@ Tools for building and developing [Zowe CLI](https://github.com/zowe/zowe-cli) w
 
 ### Building web help
 
-The following `npm` commands are available:
+The following NPM scripts are available:
 
-* `npm run build:latest` - Build web help for @zowe/cli@latest
-* `npm run build:lts` - Build web help for @brightside/core@lts-incremental
-* `npm run build` - Build web help for a specific version of the CLI (see the docs at the top of `config.yaml` for how to configure it)
-* `npm run clean` - Remove contents of "dist" and "src/node_modules" folders
+* `build` - Build web help for the CLI package defined in `config.yaml`
+* `build:bright` - Build web help for `@zowe/cli` package
+* `build:zowe` - Build web help for `@brightside/core` package
+* `clean` - Remove contents of `dist` folder
+
+To build web help for `@latest` branch:
+```bash
+npm install @zowe/cli@latest --no-save
+npm run build:zowe
+```
+
+To build web help for `@lts-incremental` branch:
+```bash
+npm install @brightside/core@lts-incremental --no-save
+npm run build:bright
+```
+
+If you want to build web help for a CLI package that is installed globally, the `npm install` step is unnecessary.
 
 ### Developing web help
 
-TODO
+The NPM `watch` script can be used to test changes made to web help source files in [Imperative](https://github.com/zowe/imperative). It copies files from the `web-help/dist` folder in the Imperative repo to the `dist` folder in this repo. This requires that you have the `@zowe/imperative` package installed or linked globally, and have already built web help into the `dist` folder.
+
+While the `watch` script is running, you can open `dist/index.html` in your web browser and refresh it to see new changes. You can also use the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension for VS Code to host the HTML page locally on your machine and automatically refresh when changes are detected.

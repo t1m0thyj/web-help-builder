@@ -1,10 +1,11 @@
 import * as fs from "fs";
 import * as path from "path";
-import { CommandResponse, WebHelpGenerator } from "../node_modules/@zowe/imperative";
+import { CommandResponse, WebHelpGenerator } from "imperative-latest";
 
 interface IConfig {
     cliPackage: string;
     excludeGroups: string[];
+    sanitizeHomeDir: boolean;
 }
 
 (async () => {
@@ -12,10 +13,6 @@ interface IConfig {
     const config: IConfig = require("js-yaml").safeLoad(fs.readFileSync(path.join(__dirname, "../config.yaml"), "utf8"));
     if (!config.cliPackage) {
         throw Error("cliPackage must be set in config.yaml");
-    }
-    let cliPackageDir: string = fs.realpathSync(path.join(__dirname, "node_modules", config.cliPackage));
-    if (!fs.existsSync(cliPackageDir)) {
-        throw Error("cliPackage must be installed in src/node_modules folder");
     }
     console.log("Loaded configuration from config.yaml");
 
@@ -27,24 +24,35 @@ interface IConfig {
         fs.mkdirSync(outDir);
     }
 
-    // Set paths to find Imperative for CLI package
-    let imperativeImportPath: string = path.join(cliPackageDir, "../imperative");
-    let imperativeRequirePath: string = path.join(cliPackageDir, "lib/imperative");
-
-    // Import path is different if CLI package installed globally
-    if (!fs.existsSync(imperativeImportPath)) {
-        imperativeImportPath = path.join(cliPackageDir, "node_modules/@zowe/imperative");
+    // Find paths where CLI package and Imperative are located
+    let cliPackagePath: string;
+    let imperativePath: string;
+    cliPackagePath = path.join("../node_modules", config.cliPackage);
+    imperativePath = path.join(cliPackagePath, "../imperative");
+    if (fs.existsSync(cliPackagePath)) {
+        console.log("Found", config.cliPackage, "installed locally");
+    } else {
+        cliPackagePath = path.join(require("global-prefix"), "node_modules", config.cliPackage);
+        if (fs.existsSync(cliPackagePath)) {
+            console.log("Found", config.cliPackage, "installed globally");
+        } else {
+            throw Error("Failed to find " + config.cliPackage);
+        }
+    }
+    if (!fs.existsSync(imperativePath)) {
+        imperativePath = path.join(cliPackagePath, "node_modules", config.cliPackage.substr(0, config.cliPackage.indexOf('/')), "imperative");
+        process.mainModule.paths.push(path.join(cliPackagePath, "node_modules"));
     }
 
     // Get all command definitions
-    const imperativeModule: any = await import(imperativeImportPath);
+    const imperativeModule: any = await import(imperativePath);
     const myConfig: any = imperativeModule.ImperativeConfig.instance;
-    myConfig.loadedConfig = require(imperativeRequirePath);
+    myConfig.loadedConfig = require(path.join(cliPackagePath, "lib/imperative"));
     // Need to avoid any .definition file inside of __tests__ folders
     myConfig.loadedConfig.commandModuleGlobs = ["**/!(__tests__)/cli/*.definition!(.d).*s"];
     // Need to set this for the internal caller location so that the commandModuleGlobs finds the commands
     const oldFilename: string = process.mainModule.filename;
-    process.mainModule.filename = path.join(cliPackageDir, "package.json");
+    process.mainModule.filename = path.join(cliPackagePath, "package.json");
     // Initialize Imperative for commands to document
     await imperativeModule.Imperative.init(myConfig.loadedConfig);
     process.mainModule.filename = oldFilename;
@@ -65,7 +73,7 @@ interface IConfig {
 
     // Build command help pages
     const helpGenerator = new WebHelpGenerator(cmdDefinitions, myConfig, outDir);
-    helpGenerator.sanitizeHomeDir = true;
+    helpGenerator.sanitizeHomeDir = config.sanitizeHomeDir;
     helpGenerator.buildHelp(new CommandResponse({ silent: false }));
 
     console.log("Output located in", outDir);
