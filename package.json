@@ -4,12 +4,12 @@
   "description": "Tools for building and developing Zowe CLI web help",
   "main": "index.js",
   "scripts": {
-    "build": "ts-node src/build-web-help.ts",
-    "build:bright": "sed -i 's|cliPackage:.*|cliPackage: \"@brightside/core\"|' config.yaml && npm run build",
-    "build:zowe": "sed -i 's|cliPackage:.*|cliPackage: \"@zowe/cli\"|' config.yaml && npm run build",
+    "build": "ts-node src/buildWebHelp.ts",
+    "build:bright": "src/setConfigValue.sh cliPackage @brightside/core && npm run build",
+    "build:zowe": "src/setConfigValue.sh cliPackage @zowe/cli && npm run build",
     "clean": "rimraf dist",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "ts-node src/watch-web-help.ts"
+    "watch": "ts-node src/watchWebHelp.ts"
   },
   "repository": {
     "type": "git",

@@ -1,28 +1,19 @@
 import * as fs from "fs";
 import * as path from "path";
-import { CommandResponse, WebHelpGenerator } from "imperative-latest";
-
-interface IConfig {
-    cliPackage: string;
-    excludeGroups: string[];
-    sanitizeHomeDir: boolean;
-}
+import config from "./loadConfig";
 
 (async () => {
-    // Load and validate config
-    const config: IConfig = require("js-yaml").safeLoad(fs.readFileSync(path.join(__dirname, "../config.yaml"), "utf8"));
-    if (!config.cliPackage) {
-        throw Error("cliPackage must be set in config.yaml");
+    // Find and load Imperative web help builder
+    let webHelpBuilderPath: string = path.join(__dirname, "../node_modules/imperative-latest");
+    if (config.useGlobalImperative) {
+        webHelpBuilderPath = path.join(require("global-prefix"), "node_modules", "@zowe/imperative");
+        if (fs.existsSync(webHelpBuilderPath)) {
+            console.log("Using globally installed @zowe/imperative");
+        } else {
+            throw Error("@zowe/imperative must be installed globally");
+        }
     }
-    console.log("Loaded configuration from config.yaml");
-
-    // Ensure output directory is empty
-    const outDir: string = path.join(__dirname, "../dist");
-    if (fs.existsSync(outDir)) {
-        require("rimraf").sync(outDir);
-    } else {
-        fs.mkdirSync(outDir);
-    }
+    const webHelpBuilder = require(webHelpBuilderPath);
 
     // Find paths where CLI package and Imperative are located
     let cliPackagePath: string;
@@ -42,6 +33,14 @@ interface IConfig {
     if (!fs.existsSync(imperativePath)) {
         imperativePath = path.join(cliPackagePath, "node_modules", config.cliPackage.substr(0, config.cliPackage.indexOf('/')), "imperative");
         process.mainModule.paths.push(path.join(cliPackagePath, "node_modules"));
+    }
+
+    // Ensure output directory is empty
+    const outDir: string = path.join(__dirname, "../dist");
+    if (fs.existsSync(outDir)) {
+        require("rimraf").sync(outDir);
+    } else {
+        fs.mkdirSync(outDir);
     }
 
     // Get all command definitions
@@ -72,9 +71,9 @@ interface IConfig {
         .filter((group: any) => (config.excludeGroups || []).indexOf(group.name) === -1);
 
     // Build command help pages
-    const helpGenerator = new WebHelpGenerator(cmdDefinitions, myConfig, outDir);
+    const helpGenerator = new webHelpBuilder.WebHelpGenerator(cmdDefinitions, myConfig, outDir);
     helpGenerator.sanitizeHomeDir = config.sanitizeHomeDir;
-    helpGenerator.buildHelp(new CommandResponse({ silent: false }));
+    helpGenerator.buildHelp(new webHelpBuilder.CommandResponse({ silent: false }));
 
     console.log("Output located in", outDir);
 })().catch((error) => {

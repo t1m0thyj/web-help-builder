@@ -1,5 +1,5 @@
 ###############################################################################
-# Name of the Imperative CLI to generate web help for.
+# Name of the Imperative based CLI to generate web help for.
 # The NPM package for the CLI must be installed either locally in this repo,
 # or globally.
 ###############################################################################
@@ -18,3 +18,10 @@ excludeGroups:
 # content.
 ###############################################################################
 sanitizeHomeDir: yes
+
+###############################################################################
+# Specifies whether to build web help using a globally installed
+# @zowe/imperative package, instead of the version installed locally in this
+# repo.
+###############################################################################
+useGlobalImperative: no
