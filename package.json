@@ -7,6 +7,7 @@
     "build": "ts-node src/buildWebHelp.ts",
     "build:bright": "src/setConfigValue.sh cliPackage @brightside/core && npm run build",
     "build:zowe": "src/setConfigValue.sh cliPackage @zowe/cli && npm run build",
+    "buildPdf": "ts-node src/convertToPdf.ts",
     "clean": "rimraf dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "ts-node src/watchWebHelp.ts"
@@ -23,6 +24,9 @@
   "homepage": "https://github.com/tjohnsonBCM/web-help-builder#readme",
   "devDependencies": {
     "@types/node": "^12.7.4",
+    "chalk": "^2.4.2",
+    "chrome-finder": "^1.0.5",
+    "chrome-headless-render-pdf": "^1.8.2",
     "cpx": "^1.5.0",
     "global-prefix": "^3.0.0",
     "imperative-latest": "npm:@zowe/imperative@^4.3.2",

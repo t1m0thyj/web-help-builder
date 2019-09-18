@@ -1,19 +1,21 @@
 import * as fs from "fs";
 import * as path from "path";
 
+const chalk = require("chalk");
+
 function getDateStr(): string {
     const dateStr: string = (new Date()).toTimeString();
-    return `[\x1b[90m${dateStr.substr(0, dateStr.indexOf(' '))}\x1b[39m]`;
+    return `[${chalk.gray(dateStr.substr(0, dateStr.indexOf(' ')))}]`;
 }
 
 (async () => {
-    const imperativePath = path.join(require("global-prefix"), "node_modules", "@zowe/imperative");
+    const imperativePath: string = path.join(require("global-prefix"), "node_modules", "@zowe/imperative");
     if (!fs.existsSync(imperativePath)) {
         throw Error("@zowe/imperative must be installed globally");
     }
 
-    const srcDir = path.join(fs.realpathSync(imperativePath), "web-help", "dist");
-    const destDir = path.join(__dirname, "../dist");
+    const srcDir: string = path.join(fs.realpathSync(imperativePath), "web-help", "dist");
+    const destDir: string = path.join(__dirname, "../dist");
     if (!fs.existsSync(destDir)) {
         throw Error("No web help found in " + destDir);
     }
