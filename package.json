@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "ts-node src/buildWebHelp.ts",
-    "build:bright": "src/setConfigValue.sh cliPackage @brightside/core && npm run build",
-    "build:zowe": "src/setConfigValue.sh cliPackage @zowe/cli && npm run build",
+    "build:bright": "bash src/setConfigValue.sh cliPackage @brightside/core && npm run build",
+    "build:zowe": "bash src/setConfigValue.sh cliPackage @zowe/cli && npm run build",
     "buildPdf": "ts-node src/convertToPdf.ts",
     "clean": "rimraf dist",
     "test": "echo \"Error: no test specified\" && exit 1",
