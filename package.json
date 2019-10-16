@@ -8,7 +8,7 @@
     "build": "ts-node src/buildWebHelp.ts",
     "build:bright": "bash src/setConfigValue.sh cliPackage @brightside/core && npm run build",
     "build:zowe": "bash src/setConfigValue.sh cliPackage @zowe/cli && npm run build",
-    "buildPdf": "ts-node src/convertToPdf.ts",
+    "buildPdf": "puppeteer print dist/docs/all.html dist/web-help.pdf $(bash src/pdfOptions.sh)",
     "clean": "rimraf dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "ts-node src/watchWebHelp.ts"
@@ -26,13 +26,12 @@
   "devDependencies": {
     "@types/node": "^12.7.4",
     "chalk": "^2.4.2",
-    "chrome-finder": "^1.0.5",
-    "chrome-headless-render-pdf": "^1.8.2",
     "cpx": "^1.5.0",
     "global-prefix": "^3.0.0",
     "imperative-latest": "npm:@zowe/imperative@^4.3.2",
     "js-yaml": "^3.13.1",
     "open-cli": "^5.0.0",
+    "puppeteer-cli": "^1.4.0",
     "rimraf": "^3.0.0",
     "ts-node": "^8.3.0",
     "tslint": "^5.19.0",
