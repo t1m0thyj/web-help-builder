@@ -2,6 +2,13 @@
 
 Tools for building and developing [Zowe CLI](https://github.com/zowe/zowe-cli) web help
 
+## No Longer Maintained
+
+Try these alternatives instead:
+
+* Build - Install desired version of Zowe CLI in Docker container and run `zowe --help-web`
+* Watch - Run this command in Imperative repo: `npx cpx "web-help/dist/**" ~/.zowe/web-help --watch -v`
+
 ## Installation
 
 1. Clone this repo
